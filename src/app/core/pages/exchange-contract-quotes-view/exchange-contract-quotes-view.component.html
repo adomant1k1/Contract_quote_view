@@ -1,0 +1,38 @@
+<div *ngIf="vm$ | async as data" class="contract-quotes-container">
+    <div class="row no-gutters mt-2">
+        <div class="col-3 name-label ml-2">
+            <span>{{ this.contracts.length + ' Contracts'}}</span>
+        </div>
+        <div class="col-1 ml-auto mr-25px justify-content-center" [formGroup]="filtersForm">
+            <div ngbDropdown>
+                <div class="btn btn-outline-secondary" ngbDropdownToggle>Style</div>
+                <div ngbDropdownMenu>
+                    <div class="style-dropdown-menu">
+                        <input class="mx-2"
+                               id="avg-checkbox"
+                               formControlName="avg"
+                               type="checkbox">
+                        <label class="mb-0" for="avg-checkbox">Average</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="quotes-container">
+        <div *ngFor="let item of data[0]; trackBy:identify" class="row no-gutters quotes-row">
+            <div class="col-10 name-label">
+                {{ item.name }}
+            </div>
+            <div class="col-1 price-label">
+           <span
+               [ngbTooltip]="getContractQuotes(item.id)"
+               [openDelay]="400">
+               {{ item.price }}
+           </span>
+            </div>
+            <div *ngIf="(avg.value)" class="col-1 avg-price-label">
+                <span *ngIf="item.avgPrice">{{ item.avgPrice + ' %' }}</span>
+            </div>
+        </div>
+    </div>
+</div>
