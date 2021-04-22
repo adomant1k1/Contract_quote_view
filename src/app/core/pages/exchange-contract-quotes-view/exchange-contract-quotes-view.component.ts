@@ -20,7 +20,6 @@ export class ExchangeContractQuotesViewComponent implements OnInit {
 
     filtersForm: FormGroup;
 
-
     constructor(private api: ContractService) {}
 
     loadContract$ = new Subject();
@@ -150,14 +149,14 @@ export class ExchangeContractQuotesViewComponent implements OnInit {
     }
 
     protected emulateLoading(): void {
-        let contractInt = setInterval(() => {
+        setInterval(() => {
             this.loadContract$.next();
         }, 300);
-        let quotesInt = setInterval(() => {
+        setInterval(() => {
             this.loadQuotes$.next();
         }, 350);
         setTimeout(() => noop(), 200);
-        let contractQuoteInt = setInterval(() => {
+        setInterval(() => {
             const randIdx = Math.floor(Math.random() * FakeDataProvider.contracts.length);
             const id = FakeDataProvider.contracts[randIdx] ? FakeDataProvider.contracts[randIdx].id : null;
             if (id) {

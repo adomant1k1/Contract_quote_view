@@ -9,7 +9,9 @@ export class FakeDataProvider {
     constructor() {}
 
     static getContractList(): ContractListItem[] {
-        return isTrue() ? [this.generateFakeContract(), this.generateFakeContract()] : [this.generateFakeContract()];
+        return isTrue() ?
+            ([this.generateFakeContract(), this.generateFakeContract()])
+            : (isTrue() ? [this.generateFakeContract()] : [this.generateRemovedContract()]);
     }
 
     static getContractsQuotesList(): ContractItem[] {
@@ -30,6 +32,12 @@ export class FakeDataProvider {
                 volume: this.getFakeVolume(500)
             }
         };
+    }
+
+    protected static generateRemovedContract(): ContractListItem {
+        const randIdx = Faker.datatype.number({min: 0, max: FakeDataProvider.contracts.length - 1});
+        const target = FakeDataProvider.contracts[randIdx];
+        return Object.assign({}, target, { removed: true });
     }
 
     protected static generateFakeContract(): ContractListItem {
